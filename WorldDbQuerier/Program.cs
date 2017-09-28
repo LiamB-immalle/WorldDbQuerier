@@ -36,7 +36,17 @@ namespace WorldDbQuerier
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
             cmd.CommandText = "SELECT Name FROM world.Country";
-            
+
+            MySqlDataReader reader = null;
+            reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Console.WriteLine("{0}, {1}",
+                    reader["CompanyName"],
+                    reader["ContactName"]);
+            }
+
             conn.Open();
 
             Console.WriteLine("");
