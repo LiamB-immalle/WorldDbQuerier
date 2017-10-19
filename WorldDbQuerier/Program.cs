@@ -25,6 +25,8 @@ namespace WorldDbQuerier
             conn.Open();
 
             Console.WriteLine("Amount o' country's : {0}", cmd.ExecuteScalar());
+
+            conn.Close();
         }
 
         static void PrintCountry()
@@ -35,21 +37,18 @@ namespace WorldDbQuerier
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "SELECT Name FROM world.Country";
+            cmd.CommandText = "SELECT * FROM world.Country";
+            conn.Open();
 
-            MySqlDataReader reader = null;
-            reader = cmd.ExecuteReader();
+            MySqlDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {
-                Console.WriteLine("{0}, {1}",
-                    reader["CompanyName"],
-                    reader["ContactName"]);
+                Console.WriteLine((string)reader["Name"]);
             }
 
-            conn.Open();
-
-            Console.WriteLine("");
+            reader.Dispose();
+            conn.Close();
         }
 
         static void Main(string[] args)
@@ -67,8 +66,24 @@ namespace WorldDbQuerier
                 }
             }
 
-            PrintCountry();
-            
+            Console.WriteLine("[1] to print all countries");
+            Console.WriteLine("[2] to print the amount of countries");
+            Console.WriteLine("everything else to quit");
+
+            string n = Console.ReadLine();
+
+            if (n == "1")
+            {
+                PrintCountry();
+            }
+            else if (n == "2")
+            {
+                CountryAmount();
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
         }
     }
 }
