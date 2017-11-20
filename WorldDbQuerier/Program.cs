@@ -5,7 +5,7 @@ namespace WorldDbQuerier
 {
     class Program
     {
-        static string version = "0.3";
+        static string version = "0.4";
 
         static void ConnectSql()
         {
@@ -51,6 +51,26 @@ namespace WorldDbQuerier
             conn.Close();
         }
 
+        public static void SearchCountry(string zoek)
+        {
+            MySqlConnection comm = new MySqlConnection();
+            comm.ConnectionString = "Server=192.168.56.101;Port=3306;Database=world;Uid=imma;Pwd=immapwd;";
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = comm;
+
+            comm.Open();
+
+            cmd.CommandText = "SELECT * FROM Country WHERE Name LIKE @zoekParameter";
+            cmd.Parameters.AddWithValue("@zoekParameter", "%" + zoek + "%");
+            var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Console.WriteLine(String.Format("{0}", reader[1]));
+
+            }
+        }
+
         static void Main(string[] args)
         {
             if (args.Length > 0)
@@ -68,6 +88,7 @@ namespace WorldDbQuerier
 
             Console.WriteLine("[1] to print all countries");
             Console.WriteLine("[2] to print the amount of countries");
+            Console.WriteLine("[3] to search the list of countries");
             Console.WriteLine("everything else to quit");
 
             string n = Console.ReadLine();
@@ -79,6 +100,12 @@ namespace WorldDbQuerier
             else if (n == "2")
             {
                 CountryAmount();
+            }
+            else if (n == "3")
+            {
+                Console.WriteLine("Search word:");
+                string word = Console.ReadLine();
+                SearchCountry(word);
             }
             else if (n == "21")
             {
