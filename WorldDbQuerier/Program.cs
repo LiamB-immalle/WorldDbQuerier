@@ -5,7 +5,7 @@ namespace WorldDbQuerier
 {
     class Program
     {
-        static string version = "0.1";
+        static string version = "0.3";
 
         static void ConnectSql()
         {
@@ -79,6 +79,10 @@ namespace WorldDbQuerier
             else if (n == "2")
             {
                 CountryAmount();
+            }
+            else if (n == "21")
+            {
+                Console.WriteLine("You stupid");
             }
             else
             {
