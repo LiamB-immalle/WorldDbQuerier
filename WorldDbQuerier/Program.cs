@@ -60,8 +60,8 @@ namespace WorldDbQuerier
 
             comm.Open();
 
-            cmd.CommandText = "SELECT * FROM Country WHERE Name LIKE @zoekParameter";
-            cmd.Parameters.AddWithValue("@zoekParameter", "%" + zoek + "%");
+            cmd.CommandText = "SELECT * FROM Country WHERE Name LIKE @zoekding";
+            cmd.Parameters.AddWithValue("@zoekding", "%" + zoek + "%");
             var reader = cmd.ExecuteReader();
 
             while (reader.Read())
